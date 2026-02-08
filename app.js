@@ -14,8 +14,8 @@ function saveSubjects() {
 }
 
 function renderSubjects() {
-    subjectList.innerHTML = "";
-    dashboardSubjectsList.innerHTML = "";
+    dashboardSubjectsList.innerHTML = ""; // dashboard -> "Subjects"
+    subjectList.innerHTML = ""; // subject management section
     subjects.forEach((subj, idx) => {
         const li1 = document.createElement("li");
         li1.textContent = `${subj.name} (Priority: ${subj.priority}) `;
@@ -123,6 +123,7 @@ const addTaskForm = document.getElementById("addTaskForm");
 const taskTitle = document.getElementById("taskTitle");
 const taskDeadline = document.getElementById("taskDeadline");
 const taskList = document.getElementById("taskList");
+const upcomingDeadlines = document.getElementById("upcomingDeadlines"); // dashboard
 const completedTasksCount = document.getElementById("completedTasksCount"); // progress analytics section
 
 renderTasks();
@@ -132,10 +133,11 @@ function saveTasks() {
 }
 
 function renderTasks() {
-    taskList.innerHTML = "";
+    upcomingDeadlines.innerHTML = ""; // dashboard -> "Upcoming Deadlines"
+    taskList.innerHTML = ""; // task manager section
     let completed = 0;
     tasks.forEach((task, idx) => {
-        const li = document.createElement("li");
+        const li1 = document.createElement("li");
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.checked = task.done;
@@ -145,8 +147,8 @@ function renderTasks() {
             renderTasks();
         };
         if (task.done) completed++;
-        li.appendChild(checkbox);
-        li.appendChild(document.createTextNode(` ${task.title} (Due: ${task.deadline}) `));
+        li1.appendChild(checkbox);
+        li1.appendChild(document.createTextNode(` ${task.title} (Due: ${task.deadline}) `));
         const delBtn = document.createElement("button");
         delBtn.type = "button";
         delBtn.textContent = "Delete";
@@ -155,8 +157,11 @@ function renderTasks() {
             saveTasks();
             renderTasks();
         };
-        li.appendChild(delBtn);
-        taskList.appendChild(li);
+        li1.appendChild(delBtn);
+        taskList.appendChild(li1);
+        const li2 = document.createElement("li");
+        li2.textContent = `${task.title} (Due: ${task.deadline})`
+        upcomingDeadlines.appendChild(li2);
     });
     completedTasksCount.textContent = completed;
 }
