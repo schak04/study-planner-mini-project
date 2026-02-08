@@ -56,6 +56,8 @@ const studySlotEnd = document.getElementById("studySlotEnd");
 const todaySchedule = document.getElementById("todaySchedule");
 const dailyTimetable = document.getElementById("dailyTimetable");
 
+renderStudySlots();
+
 function saveStudySlots() {
     localStorage.setItem("studySlots", JSON.stringify(studySlots));
 }
@@ -65,7 +67,7 @@ function renderStudySlots() {
     todaySchedule.innerHTML = "";
     studySlots.forEach((slot, idx) => {
         const li = document.createElement("li");
-        li.textContent = `${slot.subject} - ${slot.start} ${slot.end}`;
+        li.textContent = `${slot.subject} - ${slot.start} to ${slot.end}`;
         const delBtn = document.createElement("button");
         delBtn.type = "button";
         delBtn.textContent = "Delete";
