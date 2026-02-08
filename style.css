@@ -18,6 +18,12 @@ body {
     padding: 0 20px 0 20px;
 }
 
+table, th, td {
+    border: 2px solid;
+    border-collapse: collapse;
+    padding: 10px;
+}
+
 button, select, input[type="time"], input[type="date"] {
     cursor: pointer;
 }
