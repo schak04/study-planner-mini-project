@@ -177,3 +177,17 @@ addTaskForm.addEventListener("submit", (e) => {
     taskTitle.value = "";
     taskDeadline.value = "";
 });
+
+// settings
+
+// clear all data
+const clearData = document.getElementById("clearData");
+clearData.addEventListener("click", () => {
+    localStorage.clear();
+    subjects = [];
+    studySlots = [];
+    tasks = [];
+    renderSubjects();
+    renderStudySlots();
+    renderTasks();
+})
