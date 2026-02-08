@@ -1,3 +1,5 @@
+// subjects
+
 let subjects = JSON.parse(localStorage.getItem("subjects")) || [];
 const subjectForm = document.getElementById("subjectForm");
 const subjectName = document.getElementById("subjectName");
@@ -14,15 +16,14 @@ function saveSubjects() {
 function renderSubjects() {
     subjectList.innerHTML = "";
     dashboardSubjectsList.innerHTML = "";
-
-    subjects.forEach((subj, index) => {
+    subjects.forEach((subj, idx) => {
         const li1 = document.createElement("li");
         li1.textContent = `${subj.name} (Priority: ${subj.priority}) `;
         const delBtn = document.createElement("button");
         delBtn.type = "button";
         delBtn.textContent = "Delete";
         delBtn.onclick = () => {
-            subjects.splice(index, 1);
+            subjects.splice(idx, 1);
             saveSubjects();
             renderSubjects();
         };
