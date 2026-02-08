@@ -115,3 +115,60 @@ studySlotForm.addEventListener("submit", (e) => {
     studySlotStart.value = "";
     studySlotEnd.value = "";
 });
+
+// tasks
+
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+const addTaskForm = document.getElementById("addTaskForm");
+const taskTitle = document.getElementById("taskTitle");
+const taskDeadline = document.getElementById("taskDeadline");
+const taskList = document.getElementById("taskList");
+const completedTasksCount = document.getElementById("completedTasksCount"); // progress analytics section
+
+renderTasks();
+
+function saveTasks() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+function renderTasks() {
+    taskList.innerHTML = "";
+    let completed = 0;
+    tasks.forEach((task, idx) => {
+        const li = document.createElement("li");
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = task.done;
+        checkbox.onchange = () => {
+            task.done = checkbox.checked;
+            saveTasks();
+            renderTasks();
+        };
+        if (task.done) completed++;
+        li.appendChild(checkbox);
+        li.appendChild(document.createTextNode(` ${task.title} (Due: ${task.deadline}) `));
+        const delBtn = document.createElement("button");
+        delBtn.type = "button";
+        delBtn.textContent = "Delete";
+        delBtn.onclick = () => {
+            tasks.splice(idx, 1);
+            saveTasks();
+            renderTasks();
+        };
+        li.appendChild(delBtn);
+        taskList.appendChild(li);
+    });
+    completedTasksCount.textContent = completed;
+}
+
+addTaskForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const title = taskTitle.value.trim();
+    const deadline = taskDeadline.value;
+    if (title === "" || deadline === "") return;
+    tasks.push({ title, deadline, done: false });
+    saveTasks();
+    renderTasks();
+    taskTitle.value = "";
+    taskDeadline.value = "";
+});

@@ -18,6 +18,11 @@ body {
     padding: 0 20px 0 20px;
 }
 
+#taskList {
+    list-style: none;
+    padding-left: 0;
+}
+
 table, th, td {
     border: 2px solid;
     border-collapse: collapse;
