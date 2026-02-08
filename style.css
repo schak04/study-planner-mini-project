@@ -2,8 +2,14 @@
     position: sticky;
     top: 0;
     background-color: white;
+    color: black;
     z-index: 10;
     padding: 10px 0;
+}
+
+body.dark #mainHeader {
+    background-color: black;
+    color: white;
 }
 
 nav {
@@ -16,6 +22,15 @@ body {
     font-family: Georgia;
     font-size: 18px;
     padding: 0 20px 0 20px;
+}
+
+body.dark {
+    background-color: black;
+    color: white;
+}
+
+body.dark hr {
+    border-color: hsl(0, 0%, 20%);
 }
 
 #taskList {
@@ -54,6 +69,15 @@ button:active, a:active {
     transform: scale(0.98);
 }
 
+body.dark button, body.dark a {
+    background-color: white;
+    color: black;
+}
+
+body.dark button:hover, body.dark a:hover {
+    background-color: hsl(0, 0%, 90%);
+}
+
 legend {
     background-color: black;
     color: white;
@@ -68,4 +92,5 @@ fieldset {
 footer {
     font-size: 16px;
     font-family: sans-serif;
+    text-align: center;
 }

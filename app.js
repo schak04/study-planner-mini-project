@@ -180,10 +180,23 @@ addTaskForm.addEventListener("submit", (e) => {
 
 // settings
 
+// dark mode toggle
+const themeSelect = document.getElementById("themeSelect");
+const savedTheme = localStorage.getItem("theme") || "light";
+document.body.classList.toggle("dark", savedTheme === "dark");
+themeSelect.value = savedTheme;
+themeSelect.addEventListener("change", () => {
+    const theme = themeSelect.value;
+    document.body.classList.toggle("dark", theme === "dark");
+    localStorage.setItem("theme", theme);
+});
+
 // clear all data
 const clearData = document.getElementById("clearData");
 clearData.addEventListener("click", () => {
-    localStorage.clear();
+    localStorage.removeItem("subjects");
+    localStorage.removeItem("tasks");
+    localStorage.removeItem("studySlots");
     subjects = [];
     studySlots = [];
     tasks = [];
