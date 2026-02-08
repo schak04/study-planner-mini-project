@@ -56,7 +56,7 @@ const studySlotSubject = document.getElementById("studySlotSubject");
 const studySlotStart = document.getElementById("studySlotStart");
 const studySlotEnd = document.getElementById("studySlotEnd");
 const dashboardStudySlots = document.getElementById("dashboardStudySlots");
-const dailyTimetable = document.getElementById("dailyTimetable");
+const timetable = document.getElementById("timetable");
 
 renderStudySlots();
 
@@ -83,8 +83,8 @@ function renderStudySlots() {
         li.appendChild(delBtn);
         dashboardStudySlots.appendChild(li);
     })
-    // schedule planner section -> daily timetable
-    dailyTimetable.innerHTML = `<thead>
+    // schedule planner section -> timetable
+    timetable.innerHTML = `<thead>
                                     <tr>
                                         <th>Subject</th>
                                         <th>Start Time</th>
@@ -92,7 +92,7 @@ function renderStudySlots() {
                                     </tr>
                                 </thead>
                                 <tbody></tbody>`;
-    const tbody = dailyTimetable.querySelector("tbody");
+    const tbody = timetable.querySelector("tbody");
     studySlots.forEach((slot) => {
         const tr = document.createElement("tr");
         tr.innerHTML = `<td>${slot.subject}</td>
