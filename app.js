@@ -55,7 +55,7 @@ const studySlotForm = document.getElementById("studySlotForm");
 const studySlotSubject = document.getElementById("studySlotSubject");
 const studySlotStart = document.getElementById("studySlotStart");
 const studySlotEnd = document.getElementById("studySlotEnd");
-const todaySchedule = document.getElementById("todaySchedule");
+const dashboardStudySlots = document.getElementById("dashboardStudySlots");
 const dailyTimetable = document.getElementById("dailyTimetable");
 
 renderStudySlots();
@@ -65,8 +65,8 @@ function saveStudySlots() {
 }
 
 function renderStudySlots() {
-    // dashboard -> "Today's Schedule"
-    todaySchedule.innerHTML = "";
+    // dashboard -> "Study Slots"
+    dashboardStudySlots.innerHTML = "";
     studySlots.forEach((slot, idx) => {
         const li = document.createElement("li");
         li.textContent = `${slot.subject} - ${slot.start} to ${slot.end}`;
@@ -81,7 +81,7 @@ function renderStudySlots() {
             }
         }
         li.appendChild(delBtn);
-        todaySchedule.appendChild(li);
+        dashboardStudySlots.appendChild(li);
     })
     // schedule planner section -> daily timetable
     dailyTimetable.innerHTML = `<thead>
