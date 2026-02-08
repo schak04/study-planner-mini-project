@@ -23,9 +23,11 @@ function renderSubjects() {
         delBtn.type = "button";
         delBtn.textContent = "Delete";
         delBtn.onclick = () => {
-            subjects.splice(idx, 1);
-            saveSubjects();
-            renderSubjects();
+            if (confirm("Are you sure you want to delete this subject?")) {
+                subjects.splice(idx, 1);
+                saveSubjects();
+                renderSubjects();
+            }
         };
         li1.appendChild(delBtn);
         subjectList.appendChild(li1);
@@ -72,9 +74,11 @@ function renderStudySlots() {
         delBtn.type = "button";
         delBtn.textContent = "Delete";
         delBtn.onclick = () => {
-            studySlots.splice(idx, 1);
-            saveStudySlots();
-            renderStudySlots();
+            if (confirm("Are you sure you want to delete this study slot?")) {
+                studySlots.splice(idx, 1);
+                saveStudySlots();
+                renderStudySlots();
+            }
         }
         li.appendChild(delBtn);
         todaySchedule.appendChild(li);
@@ -153,9 +157,11 @@ function renderTasks() {
         delBtn.type = "button";
         delBtn.textContent = "Delete";
         delBtn.onclick = () => {
-            tasks.splice(idx, 1);
-            saveTasks();
-            renderTasks();
+            if (confirm("Are you sure you want to delete this task?")) {
+                tasks.splice(idx, 1);
+                saveTasks();
+                renderTasks();
+            }
         };
         li1.appendChild(delBtn);
         taskList.appendChild(li1);
@@ -194,13 +200,8 @@ themeSelect.addEventListener("change", () => {
 // clear all data
 const clearData = document.getElementById("clearData");
 clearData.addEventListener("click", () => {
-    localStorage.removeItem("subjects");
-    localStorage.removeItem("tasks");
-    localStorage.removeItem("studySlots");
-    subjects = [];
-    studySlots = [];
-    tasks = [];
-    renderSubjects();
-    renderStudySlots();
-    renderTasks();
-})
+    if (confirm("Are you sure you want to clear all data? This action cannot be undone.")) {
+        localStorage.clear();
+        location.reload();
+    }
+});
