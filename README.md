@@ -1,4 +1,4 @@
-# Smart Study Planner
+# Study Planner
 
 This is a simple web app that helps students organise subjects, manage schedules, track progress, and improve productivity.
 
