@@ -28,6 +28,7 @@ function renderSubjects() {
             const li1 = document.createElement("li");
             li1.textContent = `${subj.name} (Priority: ${subj.priority}) `;
             const delBtn = document.createElement("button");
+            delBtn.className = "delBtns";
             delBtn.type = "button";
             delBtn.textContent = "Delete";
             delBtn.onclick = () => {
@@ -89,6 +90,7 @@ function renderStudySlots() {
             const li = document.createElement("li");
             li.textContent = `${slot.subject} - ${slot.start} to ${slot.end}`;
             const delBtn = document.createElement("button");
+            delBtn.className = "delBtns";
             delBtn.type = "button";
             delBtn.textContent = "Delete";
             delBtn.onclick = () => {
@@ -180,6 +182,7 @@ function renderTasks() {
             li1.appendChild(checkbox);
             li1.appendChild(document.createTextNode(` ${task.title} (Due: ${task.deadline}) `));
             const delBtn = document.createElement("button");
+            delBtn.className = "delBtns";
             delBtn.type = "button";
             delBtn.textContent = "Delete";
             delBtn.onclick = () => {
