@@ -16,25 +16,34 @@ function saveSubjects() {
 function renderSubjects() {
     dashboardSubjectsList.innerHTML = ""; // dashboard -> "Subjects"
     subjectList.innerHTML = ""; // subject management section
-    subjects.forEach((subj, idx) => {
-        const li1 = document.createElement("li");
-        li1.textContent = `${subj.name} (Priority: ${subj.priority}) `;
-        const delBtn = document.createElement("button");
-        delBtn.type = "button";
-        delBtn.textContent = "Delete";
-        delBtn.onclick = () => {
-            if (confirm("Are you sure you want to delete this subject?")) {
-                subjects.splice(idx, 1);
-                saveSubjects();
-                renderSubjects();
-            }
-        };
-        li1.appendChild(delBtn);
-        subjectList.appendChild(li1);
-        const li2 = document.createElement("li");
-        li2.textContent = `${subj.name} (Priority: ${subj.priority}) `;
-        dashboardSubjectsList.appendChild(li2);
-    });
+    const subjectsSection = document.getElementById("subjectArticles");
+    const dashboardSubjectsArticle = document.getElementById("dashboardSubjectsArticle");
+    if (subjects.length === 0) {
+        subjectsSection.style.display = "none";
+        dashboardSubjectsArticle.style.display = "none";
+    } else {
+        subjectsSection.style.display = "block";
+        dashboardSubjectsArticle.style.display = "block";
+        subjects.forEach((subj, idx) => {
+            const li1 = document.createElement("li");
+            li1.textContent = `${subj.name} (Priority: ${subj.priority}) `;
+            const delBtn = document.createElement("button");
+            delBtn.type = "button";
+            delBtn.textContent = "Delete";
+            delBtn.onclick = () => {
+                if (confirm("Are you sure you want to delete this subject?")) {
+                    subjects.splice(idx, 1);
+                    saveSubjects();
+                    renderSubjects();
+                }
+            };
+            li1.appendChild(delBtn);
+            subjectList.appendChild(li1);
+            const li2 = document.createElement("li");
+            li2.textContent = `${subj.name} (Priority: ${subj.priority}) `;
+            dashboardSubjectsList.appendChild(li2);
+        });
+    }
 }
 
 subjectForm.addEventListener("submit", (e) => {
@@ -67,24 +76,32 @@ function saveStudySlots() {
 function renderStudySlots() {
     // dashboard -> "Study Slots"
     dashboardStudySlots.innerHTML = "";
-    studySlots.forEach((slot, idx) => {
-        const li = document.createElement("li");
-        li.textContent = `${slot.subject} - ${slot.start} to ${slot.end}`;
-        const delBtn = document.createElement("button");
-        delBtn.type = "button";
-        delBtn.textContent = "Delete";
-        delBtn.onclick = () => {
-            if (confirm("Are you sure you want to delete this study slot?")) {
-                studySlots.splice(idx, 1);
-                saveStudySlots();
-                renderStudySlots();
-            }
-        }
-        li.appendChild(delBtn);
-        dashboardStudySlots.appendChild(li);
-    })
-    // schedule planner section -> timetable
-    timetable.innerHTML = `<thead>
+    timetable.innerHTML = "";
+    const studySlotsArticle = document.getElementById("studySlotsArticle");
+    const timetableArticle = document.getElementById("timetableArticle");
+    if (studySlots.length === 0) {
+        studySlotsArticle.style.display = "none";
+        timetableArticle.style.display = "none";
+    } else {
+        studySlotsArticle.style.display = "block";
+        timetableArticle.style.display = "block";
+        studySlots.forEach((slot, idx) => {
+            const li = document.createElement("li");
+            li.textContent = `${slot.subject} - ${slot.start} to ${slot.end}`;
+            const delBtn = document.createElement("button");
+            delBtn.type = "button";
+            delBtn.textContent = "Delete";
+            delBtn.onclick = () => {
+                if (confirm("Are you sure you want to delete this study slot?")) {
+                    studySlots.splice(idx, 1);
+                    saveStudySlots();
+                    renderStudySlots();
+                }
+            };
+            li.appendChild(delBtn);
+            dashboardStudySlots.appendChild(li);
+        });
+        timetable.innerHTML = `<thead>
                                     <tr>
                                         <th>Subject</th>
                                         <th>Start Time</th>
@@ -92,14 +109,15 @@ function renderStudySlots() {
                                     </tr>
                                 </thead>
                                 <tbody></tbody>`;
-    const tbody = timetable.querySelector("tbody");
-    studySlots.forEach((slot) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `<td>${slot.subject}</td>
-                        <td>${slot.start}</td>
-                        <td>${slot.end}</td>`;
-        tbody.appendChild(tr);
-    });
+        const tbody = timetable.querySelector("tbody");
+        studySlots.forEach((slot) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `<td>${slot.subject}</td>
+                            <td>${slot.start}</td>
+                            <td>${slot.end}</td>`;
+            tbody.appendChild(tr);
+        });
+    }
 }
 
 studySlotForm.addEventListener("submit", (e) => {
@@ -139,37 +157,54 @@ function saveTasks() {
 function renderTasks() {
     upcomingDeadlines.innerHTML = ""; // dashboard -> "Upcoming Deadlines"
     taskList.innerHTML = ""; // task manager section
-    let completed = 0;
-    tasks.forEach((task, idx) => {
-        const li1 = document.createElement("li");
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.checked = task.done;
-        checkbox.onchange = () => {
-            task.done = checkbox.checked;
-            saveTasks();
-            renderTasks();
-        };
-        if (task.done) completed++;
-        li1.appendChild(checkbox);
-        li1.appendChild(document.createTextNode(` ${task.title} (Due: ${task.deadline}) `));
-        const delBtn = document.createElement("button");
-        delBtn.type = "button";
-        delBtn.textContent = "Delete";
-        delBtn.onclick = () => {
-            if (confirm("Are you sure you want to delete this task?")) {
-                tasks.splice(idx, 1);
+    const upcomingDeadlinesArticle = document.getElementById("upcomingDeadlinesArticle");
+    const taskListArticle = document.getElementById("taskListArticle");
+    if (tasks.length === 0) {
+        upcomingDeadlinesArticle.style.display = "none";
+        taskListArticle.style.display = "none";
+    } else {
+        upcomingDeadlinesArticle.style.display = "block";
+        taskListArticle.style.display = "block";
+        let completed = 0;
+        tasks.forEach((task, idx) => {
+            const li1 = document.createElement("li");
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.checked = task.done;
+            checkbox.onchange = () => {
+                task.done = checkbox.checked;
                 saveTasks();
                 renderTasks();
+            };
+            if (task.done) completed++;
+            li1.appendChild(checkbox);
+            li1.appendChild(document.createTextNode(` ${task.title} (Due: ${task.deadline}) `));
+            const delBtn = document.createElement("button");
+            delBtn.type = "button";
+            delBtn.textContent = "Delete";
+            delBtn.onclick = () => {
+                if (confirm("Are you sure you want to delete this task?")) {
+                    tasks.splice(idx, 1);
+                    saveTasks();
+                    renderTasks();
+                }
+            };
+            li1.appendChild(delBtn);
+            taskList.appendChild(li1);
+        });
+        const incompleteTasks = tasks.filter(task => !task.done);
+        incompleteTasks.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+        const topTasks = incompleteTasks.slice(0, 5);
+        topTasks.forEach(task => {
+            const li2 = document.createElement("li");
+            li2.textContent = `${task.title} (Due: ${task.deadline})`;
+            if (new Date(task.deadline) < new Date()) {
+                li2.style.color = "red";
             }
-        };
-        li1.appendChild(delBtn);
-        taskList.appendChild(li1);
-        const li2 = document.createElement("li");
-        li2.textContent = `${task.title} (Due: ${task.deadline})`
-        upcomingDeadlines.appendChild(li2);
-    });
-    completedTasksCount.textContent = completed;
+            upcomingDeadlines.appendChild(li2);
+        });
+        completedTasksCount.textContent = completed;
+    }
 }
 
 addTaskForm.addEventListener("submit", (e) => {
