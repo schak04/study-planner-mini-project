@@ -85,6 +85,11 @@ legend {
     border-radius: 20px;
 }
 
+body.dark legend {
+    background-color: white;
+    color: black;
+}
+
 fieldset {
     border-radius: 20px;
 }
