@@ -27,7 +27,8 @@ This is a simple productivity tool that helps students organise subjects, manage
     - Create and delete study time slots
     - Subject selection via dropdown (prevents mismatches)
     - Start/end time validation
-    - Auto-rendered timetable
+    - Overlap detection (prevents conflicts)
+    - Auto-rendered, time-sorted timetable
 - **Task Manager:**
     - Add tasks with deadlines
     - Mark tasks as completed
@@ -69,8 +70,8 @@ The Study Planner is fully functional as a client-side web app built with HTML, 
     - Delete subjects with confirmation
 - **Schedule Planner**
     - Study slots tied directly to existing subjects (dropdown-based)
-    - Time validation
-    - Auto-render timetable
+    - Time validation with conflict detection
+    - Auto-sorted Timetable
     - Dashboard preview of study slots
 - **Tasks**
     - Add tasks with deadlines
