@@ -159,6 +159,10 @@ input, select {
     font-size: 1rem;
 }
 
+select {
+    cursor: pointer;
+}
+
 input::placeholder {
     color: hsl(220 10% 60%);
 }

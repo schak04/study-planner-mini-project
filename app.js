@@ -45,6 +45,18 @@ function renderSubjects() {
             dashboardSubjectsList.appendChild(li2);
         });
     }
+    populateStudySlotSubjects(document.getElementById("studySlotSubject"));
+}
+
+function populateStudySlotSubjects(selectEl) {
+    selectEl.innerHTML = `<option value="">Select a subject</option>`;
+    subjects.forEach(subj => {
+        const option = document.createElement("option");
+        option.value = subj.name;
+        option.textContent = subj.name;
+        selectEl.appendChild(option);
+    });
+    selectEl.disabled = subjects.length === 0;
 }
 
 subjectForm.addEventListener("submit", (e) => {
