@@ -422,10 +422,38 @@ const themeSelect = document.getElementById("themeSelect");
 const savedTheme = localStorage.getItem("theme") || "light";
 document.body.classList.toggle("dark", savedTheme === "dark");
 themeSelect.value = savedTheme;
+
+// Theme Toggle Button
+const themeToggle = document.getElementById("themeToggle");
+const themeIcon = themeToggle.querySelector(".theme-icon");
+
+function updateThemeIcon(theme) {
+    themeIcon.textContent = theme === "dark" ? "☀️" : "🌙";
+}
+
+// Initialize theme icon
+updateThemeIcon(savedTheme);
+
+// Theme toggle button click
+themeToggle.addEventListener("click", () => {
+    const currentTheme = localStorage.getItem("theme") || "light";
+    const newTheme = currentTheme === "light" ? "dark" : "light";
+
+    localStorage.setItem("theme", newTheme);
+    document.body.classList.toggle("dark", newTheme === "dark");
+    themeSelect.value = newTheme;
+    updateThemeIcon(newTheme);
+
+    // Re-render charts with new theme colors
+    renderTasks();
+});
+
+// Theme select dropdown (from settings)
 themeSelect.addEventListener("change", () => {
     const theme = themeSelect.value;
     document.body.classList.toggle("dark", theme === "dark");
     localStorage.setItem("theme", theme);
+    updateThemeIcon(theme);
     renderTasks(); // Re-render to update charts with new theme colors
 });
 
