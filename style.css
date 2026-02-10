@@ -300,3 +300,19 @@ body.dark th {
         grid-column: 1 / -1;
     }
 }
+
+.progressWrap {
+    width: 100%;
+    height: 20px;
+    border-radius: 999px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    overflow: hidden;
+}
+
+.progressBar {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 200ms ease;
+}

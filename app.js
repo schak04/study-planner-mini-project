@@ -161,11 +161,24 @@ const taskDeadline = document.getElementById("taskDeadline");
 const taskList = document.getElementById("taskList");
 const upcomingDeadlines = document.getElementById("upcomingDeadlines"); // dashboard
 const completedTasksCount = document.getElementById("completedTasksCount"); // progress analytics section
+const totalTasksCount = document.getElementById("totalTasksCount");
+const pendingTasksCount = document.getElementById("pendingTasksCount");
+const overdueTasksCount = document.getElementById("overdueTasksCount");
+const completionPercent = document.getElementById("completionPercent");
+const completionBar = document.getElementById("completionBar");
 
 renderTasks();
 
 function saveTasks() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+function isOverdue(deadlineStr) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const d = new Date(deadlineStr);
+    d.setHours(0, 0, 0, 0);
+    return d < today;
 }
 
 function renderTasks() {
@@ -218,7 +231,16 @@ function renderTasks() {
             }
             upcomingDeadlines.appendChild(li2);
         });
+        const total = tasks.length;
+        const pending = total - completed;
+        const overdue = tasks.filter(t => !t.done && isOverdue(t.deadline)).length;
+        const pct = total === 0 ? 0 : Math.round((completed / total) * 100);
+        totalTasksCount.textContent = total;
         completedTasksCount.textContent = completed;
+        pendingTasksCount.textContent = pending;
+        overdueTasksCount.textContent = overdue;
+        completionPercent.textContent = `${pct}%`;
+        completionBar.style.width = `${pct}%`;
     }
 }
 
