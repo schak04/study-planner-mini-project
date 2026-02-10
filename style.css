@@ -224,38 +224,55 @@ select:focus {
 }
 
 button {
-    cursor: pointer;
+    padding: 10px 18px;
+    border-radius: 8px;
     border: none;
-    border-radius: 14px;
-    padding: 10px 14px;
-    font-weight: 700;
-    font-size: 0.95rem;
     background: var(--accent);
     color: white;
-    box-shadow: 0 10px 22px hsla(222, 84%, 55%, 0.22);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 150ms ease;
+    box-shadow: 0 2px 4px hsla(222, 84%, 55%, 0.2);
 }
 
 button:hover {
     background: var(--accent2);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px hsla(222, 84%, 55%, 0.25);
 }
 
 button:active {
-    transform: translateY(1px);
+    transform: translateY(0);
+    box-shadow: 0 1px 2px hsla(222, 84%, 55%, 0.2);
+}
+
+.editBtn {
+    background: hsl(200 70% 50%);
+    box-shadow: 0 1px 3px hsla(200, 70%, 50%, 0.2);
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    margin-left: 4px;
+}
+
+.editBtn:hover {
+    background: hsl(200 70% 45%);
+    box-shadow: 0 4px 8px hsla(200, 70%, 50%, 0.25);
 }
 
 .delBtns,
 #clearData {
-    background: hsl(0 80% 50%);
-    box-shadow: 0 10px 22px hsla(0, 80%, 50%, 0.18);
+    background: hsl(0 70% 50%);
+    box-shadow: 0 1px 3px hsla(0, 70%, 50%, 0.2);
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    margin-left: 2px;
 }
 
 .delBtns:hover,
 #clearData:hover {
-    background: hsl(0 80% 42%);
-}
-
-.delBtns {
-    margin: 10px;
+    background: hsl(0 70% 45%);
+    box-shadow: 0 4px 8px hsla(0, 70%, 50%, 0.25);
 }
 
 #taskList,
@@ -264,7 +281,7 @@ button:active {
 #upcomingDeadlines,
 #subjectList {
     list-style: none;
-    padding-left: 0;
+    padding: 0;
     margin: 0;
 }
 
@@ -274,11 +291,23 @@ button:active {
 #upcomingDeadlines li,
 #subjectList li {
     padding: 10px 12px;
+    margin: 8px 0;
+    background: var(--surface2);
+    border-radius: 8px;
     border: 1px solid var(--border);
-    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+#taskList li:hover,
+#dashboardSubjectsList li:hover,
+#dashboardStudySlots li:hover,
+#upcomingDeadlines li:hover,
+#subjectList li:hover {
     background: var(--surface);
-    margin: 10px 0;
-    box-shadow: 0 2px 10px hsla(220, 18%, 12%, 0.05);
+    border-color: var(--accent);
 }
 
 #taskList li {
