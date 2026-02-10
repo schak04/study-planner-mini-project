@@ -38,6 +38,7 @@ This is a simple productivity tool that helps students organise subjects, manage
     - Completed, pending, and overdue tasks
     - Completion percentage
     - Visual progress bar
+    - Visual charts (Pie & Bar) for task status
 - **Settings:**
     - Theme toggle
     - Clear all data
@@ -79,6 +80,7 @@ The Study Planner is fully functional as a client-side web app built with HTML, 
 - **Progress Analytics**
     - Task statistics (total, completed, pending, overdue)
     - Completion percentage with progress bar
+    - Visual charts (Pie & Bar) for task status
 - **Persistence**
     - All data stored in localStorage
     - Theme preference persists across reloads
@@ -99,7 +101,6 @@ Planned and potential enhancements (in roughly increasing complexity):
 - Mobile-first refinements (touch targets, spacing)
 - Edit subjects, tasks, and study slots
 - Weekly / daily schedule view in the dashboard
-- Progress Analytics Section -> data visualisation through charts
 - Import/export data as JSON
 - Undo support for deletes
 
