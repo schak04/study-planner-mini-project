@@ -211,7 +211,21 @@
                         </label>
                         <br><br>
 
-                        <button type="button" id="clearData">Clear All Data</button>
+                        <fieldset>
+                            <legend>Data Management</legend>
+                            <div id="importError" class="error-message"></div>
+
+                            <button type="button" id="exportData">Export Data</button>
+                            <br><br>
+
+                            <label>
+                                Import Data
+                                <input type="file" id="importData" accept=".json" />
+                            </label>
+                            <br><br>
+
+                            <button type="button" id="clearData">Clear All Data</button>
+                        </fieldset>
                     </fieldset>
                 </form>
             </article>

@@ -424,6 +424,116 @@ themeSelect.addEventListener("change", () => {
     renderTasks(); // Re-render to update charts with new theme colors
 });
 
+// Export Data
+const exportData = document.getElementById("exportData");
+exportData.addEventListener("click", () => {
+    const data = {
+        subjects: subjects,
+        studySlots: studySlots,
+        tasks: tasks,
+        theme: localStorage.getItem("theme") || "light"
+    };
+
+    const jsonStr = JSON.stringify(data, null, 2);
+    const blob = new Blob([jsonStr], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    const date = new Date().toISOString().split('T')[0];
+    a.href = url;
+    a.download = `study-planner-backup-${date}.json`;
+    a.click();
+
+    URL.revokeObjectURL(url);
+});
+
+// Import Data
+const importData = document.getElementById("importData");
+const importError = document.getElementById("importError");
+
+importData.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    importError.style.display = "none";
+    importError.textContent = "";
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+        try {
+            const data = JSON.parse(event.target.result);
+
+            // Validate schema
+            if (!data.subjects || !Array.isArray(data.subjects)) {
+                throw new Error("Invalid data: 'subjects' must be an array");
+            }
+            if (!data.studySlots || !Array.isArray(data.studySlots)) {
+                throw new Error("Invalid data: 'studySlots' must be an array");
+            }
+            if (!data.tasks || !Array.isArray(data.tasks)) {
+                throw new Error("Invalid data: 'tasks' must be an array");
+            }
+
+            // Validate subject structure
+            data.subjects.forEach((subj, i) => {
+                if (!subj.name || !subj.priority) {
+                    throw new Error(`Invalid subject at index ${i}: missing name or priority`);
+                }
+            });
+
+            // Validate study slot structure
+            data.studySlots.forEach((slot, i) => {
+                if (!slot.subject || !slot.start || !slot.end) {
+                    throw new Error(`Invalid study slot at index ${i}: missing required fields`);
+                }
+            });
+
+            // Validate task structure
+            data.tasks.forEach((task, i) => {
+                if (!task.title || !task.deadline || typeof task.done !== 'boolean') {
+                    throw new Error(`Invalid task at index ${i}: missing required fields`);
+                }
+            });
+
+            // Import successful - update localStorage
+            subjects = data.subjects;
+            studySlots = data.studySlots;
+            tasks = data.tasks;
+
+            saveSubjects();
+            saveStudySlots();
+            saveTasks();
+
+            // Apply theme
+            const importedTheme = data.theme || "light";
+            localStorage.setItem("theme", importedTheme);
+            document.body.classList.toggle("dark", importedTheme === "dark");
+            themeSelect.value = importedTheme;
+
+            // Re-render all UI
+            renderSubjects();
+            renderStudySlots();
+            renderTasks();
+
+            alert("Data imported successfully!");
+
+        } catch (err) {
+            importError.textContent = `Import failed: ${err.message}`;
+            importError.style.display = "block";
+        }
+    };
+
+    reader.onerror = () => {
+        importError.textContent = "Failed to read file. Please try again.";
+        importError.style.display = "block";
+    };
+
+    reader.readAsText(file);
+
+    // Reset file input
+    e.target.value = "";
+});
+
 // clear all data
 const clearData = document.getElementById("clearData");
 clearData.addEventListener("click", () => {
