@@ -91,6 +91,7 @@ The Study Planner is fully functional as a client-side web app built with HTML, 
     - Smooth scrolling navigation
     - Inline editing with modal UI for subjects, tasks, and study slots
     - Duplicate prevention and conflict detection during edits
+    - Import/export data as JSON with validation
 
 **This is intentionally a pure fundamentals project.**
 
@@ -99,11 +100,10 @@ The Study Planner is fully functional as a client-side web app built with HTML, 
 Planned and potential enhancements (in roughly increasing complexity):
 
 - Modularize app logic
-- UI polish
+- UI polishing
 - Animations for add/delete/edit actions
 - Mobile-first refinements (touch targets, spacing)
 - Weekly / daily schedule view in the dashboard
-- Import/export data as JSON
 - Undo support for deletes
 
 ---
