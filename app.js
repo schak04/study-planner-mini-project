@@ -241,7 +241,119 @@ function renderTasks() {
         overdueTasksCount.textContent = overdue;
         completionPercent.textContent = `${pct}%`;
         completionBar.style.width = `${pct}%`;
+        // Render charts
+        updateCharts(completed, pending, overdue);
     }
+}
+
+function updateCharts(completed, pending, overdue) {
+    const chartsContainer = document.getElementById("chartsContainer");
+    const chartLegend = document.getElementById("chartLegend");
+
+    if (completed === 0 && pending === 0 && overdue === 0) {
+        chartsContainer.style.display = "none";
+        chartLegend.style.display = "none";
+        return;
+    }
+
+    chartsContainer.style.display = "flex";
+    chartLegend.style.display = "flex";
+
+    // Get theme colors
+    const style = getComputedStyle(document.body);
+    const completedColor = style.getPropertyValue('--accent').trim();
+    const pendingColor = style.getPropertyValue('--muted').trim();
+    const overdueColor = "hsl(0, 80%, 60%)"; // Red for overdue
+
+    const pieCtx = document.getElementById("pieChart").getContext("2d");
+    const barCtx = document.getElementById("barChart").getContext("2d");
+
+    const data = [completed, pending, overdue];
+    const labels = ["Completed", "Pending", "Overdue"];
+    const colors = [completedColor, pendingColor, overdueColor];
+
+    drawPieChart(pieCtx, data, colors);
+    drawBarChart(barCtx, data, colors, labels);
+    drawLegend(chartLegend, labels, colors);
+}
+
+function drawPieChart(ctx, data, colors) {
+    const total = data.reduce((a, b) => a + b, 0);
+    let startAngle = 0;
+    const canvas = ctx.canvas;
+    // Handle high DPI
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.width * dpr; // Square aspect ratio
+    ctx.scale(dpr, dpr);
+    canvas.style.width = `${rect.width}px`;
+    canvas.style.height = `${rect.width}px`;
+
+    const centerX = rect.width / 2;
+    const centerY = rect.width / 2;
+    const radius = (rect.width / 2) - 10;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    if (total === 0) return;
+
+    data.forEach((value, idx) => {
+        const sliceAngle = (value / total) * 2 * Math.PI;
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
+        ctx.closePath();
+        ctx.fillStyle = colors[idx];
+        ctx.fill();
+        startAngle += sliceAngle;
+    });
+}
+
+function drawBarChart(ctx, data, colors, labels) {
+    const canvas = ctx.canvas;
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    // Maintain aspect ratio or fixed height
+    const height = 200;
+    canvas.width = rect.width * dpr;
+    canvas.height = height * dpr;
+    ctx.scale(dpr, dpr);
+    canvas.style.width = `${rect.width}px`;
+    canvas.style.height = `${height}px`;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const maxVal = Math.max(...data);
+    if (maxVal === 0) return;
+
+    const barWidth = (rect.width / data.length) - 20;
+    const chartHeight = height - 20;
+
+    data.forEach((value, idx) => {
+        const barHeight = (value / maxVal) * chartHeight;
+        const x = idx * (rect.width / data.length) + 10;
+        const y = chartHeight - barHeight;
+
+        ctx.fillStyle = colors[idx];
+        ctx.fillRect(x, y, barWidth, barHeight);
+
+        // Count text
+        ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--text').trim();
+        ctx.font = "bold 12px system-ui";
+        ctx.textAlign = "center";
+        ctx.fillText(value, x + barWidth / 2, y - 5);
+    });
+}
+
+function drawLegend(container, labels, colors) {
+    container.innerHTML = "";
+    labels.forEach((label, idx) => {
+        const item = document.createElement("div");
+        item.className = "legend-item";
+        item.innerHTML = `<div class="legend-color" style="background: ${colors[idx]}"></div> ${label}`;
+        container.appendChild(item);
+    });
 }
 
 addTaskForm.addEventListener("submit", (e) => {
@@ -267,6 +379,7 @@ themeSelect.addEventListener("change", () => {
     const theme = themeSelect.value;
     document.body.classList.toggle("dark", theme === "dark");
     localStorage.setItem("theme", theme);
+    renderTasks(); // Re-render to update charts with new theme colors
 });
 
 // clear all data
