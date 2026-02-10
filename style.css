@@ -396,11 +396,25 @@ canvas {
 }
 
 #statusDistributionHeading {
-    text-align:center;
-    margin-bottom:10px;
+    text-align: center;
+    margin-bottom: 10px;
 }
 
 #taskCountsHeading {
-    text-align:center;
-    margin-bottom:10px
+    text-align: center;
+    margin-bottom: 10px
+}
+
+/* Error Messages */
+.error-message {
+    color: hsl(0, 80%, 60%);
+    background: hsla(0, 80%, 60%, 0.1);
+    border: 1px solid hsla(0, 80%, 60%, 0.2);
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+    display: none;
+    text-align: center;
 }

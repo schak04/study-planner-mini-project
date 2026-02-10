@@ -92,6 +92,10 @@ function renderStudySlots() {
     timetable.innerHTML = "";
     const studySlotsArticle = document.getElementById("studySlotsArticle");
     const timetableArticle = document.getElementById("timetableArticle");
+
+    // Sort slots by start time
+    studySlots.sort((a, b) => a.start.localeCompare(b.start));
+
     if (studySlots.length === 0) {
         studySlotsArticle.style.display = "none";
         timetableArticle.style.display = "none";
@@ -139,14 +143,36 @@ studySlotForm.addEventListener("submit", (e) => {
     const subject = studySlotSubject.value.trim();
     const start = studySlotStart.value;
     const end = studySlotEnd.value;
+    const errorMsg = document.getElementById("slotError");
+
+    // Reset error
+    errorMsg.style.display = "none";
+    errorMsg.textContent = "";
+
     if (subject === "" || start === "" || end === "") return;
+
     if (end <= start) {
-        alert("Wait, what? How can the start time be before the end time?");
+        errorMsg.textContent = "End time must be after start time.";
+        errorMsg.style.display = "block";
         return;
     }
+
+    // Check for overlap
+    const isOverlap = studySlots.some(slot => {
+        return (start < slot.end && end > slot.start);
+    });
+
+    if (isOverlap) {
+        errorMsg.textContent = "Time slot overlaps with an existing session.";
+        errorMsg.style.display = "block";
+        return;
+    }
+
     studySlots.push({ subject, start, end });
     saveStudySlots();
     renderStudySlots();
+
+    // Success, clear form
     studySlotSubject.value = "";
     studySlotStart.value = "";
     studySlotEnd.value = "";
