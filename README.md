@@ -68,6 +68,7 @@ The Study Planner is fully functional as a client-side web app built with HTML, 
     - Delete subjects with confirmation
 - **Schedule Planner**
     - Study slots tied directly to existing subjects (dropdown-based)
+    - Time validation
     - Auto-render timetable
     - Dashboard preview of study slots
 - **Tasks**
