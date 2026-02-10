@@ -326,15 +326,19 @@ function drawPieChart(ctx, data, colors) {
     // Handle high DPI
     const dpr = window.devicePixelRatio || 1;
     const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.width * dpr; // Square aspect ratio
-    ctx.scale(dpr, dpr);
-    canvas.style.width = `${rect.width}px`;
-    canvas.style.height = `${rect.width}px`;
 
-    const centerX = rect.width / 2;
-    const centerY = rect.width / 2;
-    const radius = (rect.width / 2) - 10;
+    // Ensure minimum size
+    const size = Math.max(rect.width, 200);
+
+    canvas.width = size * dpr;
+    canvas.height = size * dpr; // Square aspect ratio
+    ctx.scale(dpr, dpr);
+    canvas.style.width = `${size}px`;
+    canvas.style.height = `${size}px`;
+
+    const centerX = size / 2;
+    const centerY = size / 2;
+    const radius = Math.max((size / 2) - 10, 10); // Ensure minimum radius
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -357,11 +361,12 @@ function drawBarChart(ctx, data, colors, labels) {
     const dpr = window.devicePixelRatio || 1;
     const rect = canvas.getBoundingClientRect();
     // Maintain aspect ratio or fixed height
-    const height = 200;
-    canvas.width = rect.width * dpr;
+    const height = 250;
+    const width = Math.max(rect.width, 300);
+    canvas.width = width * dpr;
     canvas.height = height * dpr;
     ctx.scale(dpr, dpr);
-    canvas.style.width = `${rect.width}px`;
+    canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -369,12 +374,12 @@ function drawBarChart(ctx, data, colors, labels) {
     const maxVal = Math.max(...data);
     if (maxVal === 0) return;
 
-    const barWidth = (rect.width / data.length) - 20;
-    const chartHeight = height - 20;
+    const barWidth = (width / data.length) - 20;
+    const chartHeight = height - 30;
 
     data.forEach((value, idx) => {
         const barHeight = (value / maxVal) * chartHeight;
-        const x = idx * (rect.width / data.length) + 10;
+        const x = idx * (width / data.length) + 10;
         const y = chartHeight - barHeight;
 
         ctx.fillStyle = colors[idx];
@@ -423,6 +428,52 @@ themeSelect.addEventListener("change", () => {
     localStorage.setItem("theme", theme);
     renderTasks(); // Re-render to update charts with new theme colors
 });
+
+// View Switching
+console.log('Initializing view switching...');
+const navLinks = document.querySelectorAll('.nav-link');
+const views = document.querySelectorAll('.view');
+
+console.log('Found nav links:', navLinks.length);
+console.log('Found views:', views.length);
+
+function switchView(targetView) {
+    console.log('Switching to view:', targetView);
+    // Hide all views
+    views.forEach(view => view.classList.remove('active'));
+
+    // Show target view
+    const target = document.querySelector(`[data-view="${targetView}"]`);
+    if (target) {
+        target.classList.add('active');
+        console.log('Activated view:', targetView);
+    } else {
+        console.error('View not found:', targetView);
+    }
+
+    // Update nav active state
+    navLinks.forEach(link => {
+        if (link.dataset.target === targetView) {
+            link.setAttribute('aria-current', 'page');
+        } else {
+            link.removeAttribute('aria-current');
+        }
+    });
+
+    // Scroll to top
+    window.scrollTo(0, 0);
+}
+
+navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        console.log('Nav link clicked:', link.dataset.target);
+        switchView(link.dataset.target);
+    });
+});
+
+// Initialize: show dashboard
+console.log('Initializing dashboard view...');
+switchView('dashboard');
 
 // Export Data
 const exportData = document.getElementById("exportData");

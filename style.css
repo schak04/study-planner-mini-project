@@ -17,7 +17,7 @@
 }
 
 html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
 }
 
 body {
@@ -41,20 +41,23 @@ footer {
     position: sticky;
     top: 0;
     z-index: 20;
-    padding: 18px 0 14px;
-    background: hsla(220, 20%, 98%, 0.75);
+    padding: 16px 0;
+    background: hsla(220, 20%, 98%, 0.85);
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 20px;
 }
 
 #appBranding {
-    margin: 0 0 12px 0;
+    margin: 0;
     font-size: 2rem;
-    letter-spacing: -0.3px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    white-space: nowrap;
 }
 
 #appBranding:hover {
@@ -67,9 +70,8 @@ footer {
 
 nav {
     display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+    gap: 4px;
+    align-items: center;
 }
 
 a {
@@ -78,52 +80,69 @@ a {
     font-size: 0.95rem;
 }
 
-nav a {
-    padding: 8px 12px;
-    border-radius: 999px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    box-shadow: 0 1px 0 hsla(220, 18%, 12%, 0.04);
-}
-
-nav a:hover {
-    border-color: hsl(220 14% 78%);
-    box-shadow: var(--shadow2);
-}
-
-hr {
+.nav-link {
+    padding: 8px 16px;
+    border-radius: 8px;
     border: none;
-    border-top: 1px solid var(--border);
-    margin: 18px 0;
-    opacity: 0.7;
+    background: transparent;
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 150ms ease;
+    box-shadow: none;
+}
+
+.nav-link:hover {
+    background: var(--surface2);
+    color: var(--text);
+}
+
+.nav-link[aria-current="page"] {
+    background: var(--accent);
+    color: white;
+}
+
+.nav-link[aria-current="page"]:hover {
+    background: var(--accent2);
 }
 
 section {
-    margin: 22px 0;
-    padding: 18px;
-    border-radius: var(--radius);
-    background: var(--surface2);
-    border: 1px solid var(--border);
+    margin: 0;
+    padding: 24px 0;
+    border-radius: 0;
+    background: transparent;
+    border: none;
 }
 
 section>header h2 {
-    margin: 0 0 14px;
-    font-size: 1.2rem;
-    letter-spacing: -0.2px;
+    margin: 0 0 20px;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.view {
+    display: none !important;
+}
+
+.view.active {
+    display: block !important;
 }
 
 article {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 16px;
-    margin: 14px 0;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 16px 0;
     box-shadow: var(--shadow2);
 }
 
 article h3 {
-    margin: 0 0 12px;
-    font-size: 1.02rem;
+    margin: 0 0 16px;
+    font-size: 1.1rem;
+    font-weight: 600;
     color: var(--text);
 }
 
@@ -295,7 +314,7 @@ body.dark {
 }
 
 body.dark #mainHeader {
-    background: hsla(220, 20%, 7%, 0.70);
+    background: hsla(220, 20%, 7%, 0.85);
 }
 
 body.dark nav a {

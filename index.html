@@ -12,19 +12,19 @@
 
     <header id="mainHeader">
         <h1><a id="appBranding" href="https://github.com/schak04/study-planner-mini-project">Study Planner</a></h1>
-        <nav>
-            <a href="#dashboard">Dashboard</a>
-            <a href="#subjects">Subjects</a>
-            <a href="#schedule">Schedule</a>
-            <a href="#tasks">Tasks</a>
-            <a href="#progress">Progress</a>
-            <a href="#settings">Settings</a>
+        <nav role="navigation">
+            <button class="nav-link" data-target="dashboard" aria-current="page">Dashboard</button>
+            <button class="nav-link" data-target="subjects">Subjects</button>
+            <button class="nav-link" data-target="schedule">Schedule</button>
+            <button class="nav-link" data-target="tasks">Tasks</button>
+            <button class="nav-link" data-target="progress">Progress</button>
+            <button class="nav-link" data-target="settings">Settings</button>
         </nav>
     </header>
 
     <main>
 
-        <section id="dashboard">
+        <section id="dashboard" class="view" data-view="dashboard">
             <header>
                 <h2>Dashboard</h2>
             </header>
@@ -45,9 +45,7 @@
             </article>
         </section>
 
-        <hr>
-
-        <section id="subjects">
+        <section id="subjects" class="view" data-view="subjects">
             <header>
                 <h2>Subject Management</h2>
             </header>
@@ -83,9 +81,7 @@
             </article>
         </section>
 
-        <hr>
-
-        <section id="schedule">
+        <section id="schedule" class="view" data-view="schedule">
             <header>
                 <h2>Schedule Planner</h2>
             </header>
@@ -123,9 +119,7 @@
             </article>
         </section>
 
-        <hr>
-
-        <section id="tasks">
+        <section id="tasks" class="view" data-view="tasks">
             <header>
                 <h2>Task Manager</h2>
             </header>
@@ -156,9 +150,7 @@
             </article>
         </section>
 
-        <hr>
-
-        <section id="progress">
+        <section id="progress" class="view" data-view="progress">
             <header>
                 <h2>Progress Analytics</h2>
             </header>
@@ -188,9 +180,7 @@
             </article>
         </section>
 
-        <hr>
-
-        <section id="settings">
+        <section id="settings" class="view" data-view="settings">
             <header>
                 <h2>Settings</h2>
             </header>
