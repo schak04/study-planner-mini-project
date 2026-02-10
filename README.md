@@ -16,12 +16,31 @@ This is a simple productivity tool that helps students organise subjects, manage
 
 ## Application Sections
 
-- **Dashboard:** Overview of subjects, study slots, and upcoming deadlines
-- **Subject Management:** Add, prioritise, delete subjects
-- **Schedule Planner:** Create, view, delete study time slots
-- **Task Manager:** Track tasks with deadlines
-- **Progress Analytics:** See completed task count at a glance (more features upcoming)
-- **Settings:** Theme toggle and data reset
+- **Dashboard:**
+    - Overview of subjects
+    - Study slots preview
+    - Upcoming deadlines
+- **Subject Management:**
+    - Add subjects with priority
+    - Delete subjects with confirmation
+- **Schedule Planner:**
+    - Create and delete study time slots
+    - Subject selection via dropdown (prevents mismatches)
+    - Start/end time validation
+    - Auto-rendered timetable
+- **Task Manager:**
+    - Add tasks with deadlines
+    - Mark tasks as completed
+    - Auto-sorted upcoming deadlines
+    - Overdue task highlighting
+- **Progress Analytics:**
+    - Total tasks
+    - Completed, pending, and overdue tasks
+    - Completion percentage
+    - Visual progress bar
+- **Settings:**
+    - Theme toggle
+    - Clear all data
 
 ---
 
@@ -29,7 +48,7 @@ This is a simple productivity tool that helps students organise subjects, manage
 - Practice clean semantic HTML
 - Build a complete UI using plain CSS
 - Implement state management without frameworks/libraries
-- Create a real, usable productivity tool
+- Create a realistic, usable productivity tool
 
 ---
 
@@ -48,7 +67,7 @@ The Study Planner is fully functional as a client-side web app built with HTML, 
     - View subjects in both dashboard and management section
     - Delete subjects with confirmation
 - **Schedule Planner**
-    - Add study slots with start/end time validation
+    - Study slots tied directly to existing subjects (dropdown-based)
     - Auto-render timetable
     - Dashboard preview of study slots
 - **Tasks**
@@ -57,7 +76,8 @@ The Study Planner is fully functional as a client-side web app built with HTML, 
     - Auto-sorting of upcoming deadlines using pure JavaScript logic
     - Highlight overdue tasks
 - **Progress Analytics**
-    - Live count of completed tasks
+    - Task statistics (total, completed, pending, overdue)
+    - Completion percentage with progress bar
 - **Persistence**
     - All data stored in localStorage
     - Theme preference persists across reloads
@@ -77,8 +97,8 @@ Planned and potential enhancements (in roughly increasing complexity):
 - Animations for add/delete actions
 - Mobile-first refinements (touch targets, spacing)
 - Edit subjects, tasks, and study slots
-- Weekly / daily schedule view
-- Progress Analytics (data visualisation through charts)
+- Weekly / daily schedule view in the dashboard
+- Progress Analytics Section -> data visualisation through charts
 - Import/export data as JSON
 - Undo support for deletes
 
