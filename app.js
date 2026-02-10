@@ -105,6 +105,13 @@ function renderStudySlots() {
         studySlots.forEach((slot, idx) => {
             const li = document.createElement("li");
             li.textContent = `${slot.subject} - ${slot.start} to ${slot.end}`;
+
+            const editBtn = document.createElement("button");
+            editBtn.className = "editBtn";
+            editBtn.type = "button";
+            editBtn.textContent = "Edit";
+            editBtn.onclick = () => openEditSlotModal(idx);
+
             const delBtn = document.createElement("button");
             delBtn.className = "delBtns";
             delBtn.type = "button";
@@ -116,6 +123,7 @@ function renderStudySlots() {
                     renderStudySlots();
                 }
             };
+            li.appendChild(editBtn);
             li.appendChild(delBtn);
             dashboardStudySlots.appendChild(li);
         });
@@ -232,6 +240,13 @@ function renderTasks() {
             if (task.done) completed++;
             li1.appendChild(checkbox);
             li1.appendChild(document.createTextNode(` ${task.title} (Due: ${task.deadline}) `));
+
+            const editBtn = document.createElement("button");
+            editBtn.className = "editBtn";
+            editBtn.type = "button";
+            editBtn.textContent = "Edit";
+            editBtn.onclick = () => openEditTaskModal(idx);
+
             const delBtn = document.createElement("button");
             delBtn.className = "delBtns";
             delBtn.type = "button";
@@ -243,6 +258,7 @@ function renderTasks() {
                     renderTasks();
                 }
             };
+            li1.appendChild(editBtn);
             li1.appendChild(delBtn);
             taskList.appendChild(li1);
         });
@@ -414,5 +430,194 @@ clearData.addEventListener("click", () => {
     if (confirm("Are you sure you want to clear all data? This action cannot be undone.")) {
         localStorage.clear();
         location.reload();
+    }
+});
+
+// Edit Modal Logic
+const editModal = document.getElementById("editModal");
+const modalTitle = document.getElementById("modalTitle");
+const modalFields = document.getElementById("modalFields");
+const modalError = document.getElementById("modalError");
+const editForm = document.getElementById("editForm");
+const cancelEdit = document.getElementById("cancelEdit");
+
+let currentEditType = null;
+let currentEditIndex = null;
+
+function closeModal() {
+    editModal.style.display = "none";
+    modalError.style.display = "none";
+    modalError.textContent = "";
+    currentEditType = null;
+    currentEditIndex = null;
+}
+
+cancelEdit.addEventListener("click", closeModal);
+
+// Close modal when clicking outside
+editModal.addEventListener("click", (e) => {
+    if (e.target === editModal) closeModal();
+});
+
+// Subject Edit
+function openEditSubjectModal(idx) {
+    const subj = subjects[idx];
+    currentEditType = "subject";
+    currentEditIndex = idx;
+
+    modalTitle.textContent = "Edit Subject";
+    modalFields.innerHTML = `
+        <label>
+            Subject Name
+            <input type="text" id="editSubjectName" value="${subj.name}" required />
+        </label>
+        <label>
+            Priority
+            <select id="editSubjectPriority">
+                <option value="High" ${subj.priority === "High" ? "selected" : ""}>High</option>
+                <option value="Medium" ${subj.priority === "Medium" ? "selected" : ""}>Medium</option>
+                <option value="Low" ${subj.priority === "Low" ? "selected" : ""}>Low</option>
+            </select>
+        </label>
+    `;
+
+    editModal.style.display = "block";
+}
+
+// Study Slot Edit
+function openEditSlotModal(idx) {
+    const slot = studySlots[idx];
+    currentEditType = "slot";
+    currentEditIndex = idx;
+
+    modalTitle.textContent = "Edit Study Slot";
+
+    const subjectOptions = subjects.map(s =>
+        `<option value="${s.name}" ${s.name === slot.subject ? "selected" : ""}>${s.name}</option>`
+    ).join("");
+
+    modalFields.innerHTML = `
+        <label>
+            Subject
+            <select id="editSlotSubject" required>
+                ${subjectOptions}
+            </select>
+        </label>
+        <label>
+            Start Time
+            <input type="time" id="editSlotStart" value="${slot.start}" required />
+        </label>
+        <label>
+            End Time
+            <input type="time" id="editSlotEnd" value="${slot.end}" required />
+        </label>
+    `;
+
+    editModal.style.display = "block";
+}
+
+// Task Edit
+function openEditTaskModal(idx) {
+    const task = tasks[idx];
+    currentEditType = "task";
+    currentEditIndex = idx;
+
+    modalTitle.textContent = "Edit Task";
+    modalFields.innerHTML = `
+        <label>
+            Task Title
+            <input type="text" id="editTaskTitle" value="${task.title}" required />
+        </label>
+        <label>
+            Deadline
+            <input type="date" id="editTaskDeadline" value="${task.deadline}" required />
+        </label>
+    `;
+
+    editModal.style.display = "block";
+}
+
+// Save Edit
+editForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    modalError.style.display = "none";
+    modalError.textContent = "";
+
+    if (currentEditType === "subject") {
+        const newName = document.getElementById("editSubjectName").value.trim();
+        const newPriority = document.getElementById("editSubjectPriority").value;
+
+        if (newName === "") return;
+
+        // Check for duplicates (case-insensitive), excluding current subject
+        const isDuplicate = subjects.some((s, i) =>
+            i !== currentEditIndex && s.name.toLowerCase() === newName.toLowerCase()
+        );
+
+        if (isDuplicate) {
+            modalError.textContent = "A subject with this name already exists.";
+            modalError.style.display = "block";
+            return;
+        }
+
+        const oldName = subjects[currentEditIndex].name;
+        subjects[currentEditIndex] = { name: newName, priority: newPriority };
+
+        // Update all study slots that reference the old subject name
+        studySlots.forEach(slot => {
+            if (slot.subject === oldName) {
+                slot.subject = newName;
+            }
+        });
+
+        saveSubjects();
+        saveStudySlots();
+        renderSubjects();
+        renderStudySlots();
+        closeModal();
+
+    } else if (currentEditType === "slot") {
+        const subject = document.getElementById("editSlotSubject").value;
+        const start = document.getElementById("editSlotStart").value;
+        const end = document.getElementById("editSlotEnd").value;
+
+        if (subject === "" || start === "" || end === "") return;
+
+        if (end <= start) {
+            modalError.textContent = "End time must be after start time.";
+            modalError.style.display = "block";
+            return;
+        }
+
+        // Check for overlap, excluding the slot being edited
+        const isOverlap = studySlots.some((slot, i) => {
+            if (i === currentEditIndex) return false;
+            return (start < slot.end && end > slot.start);
+        });
+
+        if (isOverlap) {
+            modalError.textContent = "Time slot overlaps with an existing session.";
+            modalError.style.display = "block";
+            return;
+        }
+
+        studySlots[currentEditIndex] = { subject, start, end };
+        saveStudySlots();
+        renderStudySlots();
+        closeModal();
+
+    } else if (currentEditType === "task") {
+        const title = document.getElementById("editTaskTitle").value.trim();
+        const deadline = document.getElementById("editTaskDeadline").value;
+
+        if (title === "" || deadline === "") return;
+
+        // Preserve done state
+        tasks[currentEditIndex].title = title;
+        tasks[currentEditIndex].deadline = deadline;
+
+        saveTasks();
+        renderTasks();
+        closeModal();
     }
 });

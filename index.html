@@ -232,8 +232,22 @@
         footerYear.textContent = (startYear === currentYear) ? currentYear : `${startYear}-${currentYear}`;
     </script>
 
-    <script src="app.js"></script>
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h3 id="modalTitle">Edit</h3>
+            <div id="modalError" class="error-message"></div>
+            <form id="editForm">
+                <div id="modalFields"></div>
+                <div class="modal-actions">
+                    <button type="button" id="cancelEdit">Cancel</button>
+                    <button type="submit" id="saveEdit">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
+    <script src="app.js"></script>
 </body>
 
 </html>
