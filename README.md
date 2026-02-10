@@ -60,7 +60,7 @@ The Study Planner is fully functional as a client-side web app built with HTML, 
 
 ### What’s Implemented
 
-- Semantic, multi-section layout
+- Semantic, multi-section layout with view switching
 - Modern UI with:
     - Card-based sections
     - Light/Dark mode with CSS variables
@@ -100,7 +100,6 @@ The Study Planner is fully functional as a client-side web app built with HTML, 
 Planned and potential enhancements (in roughly increasing complexity):
 
 - Modularize app logic
-- UI polishing
 - Animations for add/delete/edit actions
 - Mobile-first refinements (touch targets, spacing)
 - Weekly / daily schedule view in the dashboard
