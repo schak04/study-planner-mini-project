@@ -20,7 +20,7 @@ function renderSubjects() {
     const dashboardSubjectsArticle = document.getElementById("dashboardSubjectsArticle");
     if (subjects.length === 0) {
         subjectsSection.style.display = "none";
-        dashboardSubjectsArticle.style.display = "none";
+        // dashboardSubjectsArticle.style.display = "none";
     } else {
         subjectsSection.style.display = "block";
         dashboardSubjectsArticle.style.display = "block";
@@ -97,7 +97,7 @@ function renderStudySlots() {
     studySlots.sort((a, b) => a.start.localeCompare(b.start));
 
     if (studySlots.length === 0) {
-        studySlotsArticle.style.display = "none";
+        // studySlotsArticle.style.display = "none";
         timetableArticle.style.display = "none";
     } else {
         studySlotsArticle.style.display = "block";
@@ -221,7 +221,7 @@ function renderTasks() {
     const upcomingDeadlinesArticle = document.getElementById("upcomingDeadlinesArticle");
     const taskListArticle = document.getElementById("taskListArticle");
     if (tasks.length === 0) {
-        upcomingDeadlinesArticle.style.display = "none";
+        // upcomingDeadlinesArticle.style.display = "none";
         taskListArticle.style.display = "none";
     } else {
         upcomingDeadlinesArticle.style.display = "block";
